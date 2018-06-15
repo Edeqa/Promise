@@ -11,5 +11,6 @@ Supports:
 - resolve
 - reject
 - then (also in chain)
+- catch
 - all
 - race
