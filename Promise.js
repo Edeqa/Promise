@@ -18,7 +18,6 @@ function Promise(callback) {
 }
 Promise.prototype.resolve = function(object) {
     if(this.PromiseState !== this.PENDING) return;
-    var result;
     while(this._pending.length > 0) {
         var callbacks = this._pending.shift();
         try {
@@ -29,11 +28,11 @@ Promise.prototype.resolve = function(object) {
                 resolve.resolve(object);
                 return resolve;
             }
-            result = resolve.call(this,object);
-            if(result instanceof Promise) {
-                result._pending = result._pending.concat(this._pending);
-                result._catch = this._catch;
-                return result;
+            object = resolve.call(this,object);
+            if(object instanceof Promise) {
+                object._pending = object._pending.concat(this._pending);
+                object._catch = this._catch;
+                return object;
             }
         } catch(error) {
             (callbacks.reject || this._catch).call(this, error);
@@ -41,7 +40,7 @@ Promise.prototype.resolve = function(object) {
         }
     }
     this.PromiseState = this.RESOLVED;
-    return result;
+    return object;
 };
 Promise.prototype.reject = function(error) {
     if(this.PromiseState !== this.PENDING) return;
@@ -128,4 +127,4 @@ Promise.reject = function(error) {
     return new Promise(function(resolve, reject) {
         reject(error);
     });
-};
+}
