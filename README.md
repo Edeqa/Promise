@@ -14,3 +14,5 @@ Supports:
 - catch
 - all
 - race
+
+Used as a part of Edequate
