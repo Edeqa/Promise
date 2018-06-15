@@ -1,4 +1,4 @@
-Promise = function(callback) {
+function Promise(callback) {
     this._pending = [];
     this.PENDING = "pending";
     this.RESOLVED = "resolved";
@@ -15,6 +15,7 @@ Promise = function(callback) {
         }
     }.bind(this), 0)
 }
+
 Promise.prototype.resolve = function (result) {
     if (this.PromiseState !== this.PENDING) return;
     while (this._pending.length > 0) {
