@@ -15,7 +15,6 @@ Promise = function(callback) {
         }
     }.bind(this), 0)
 }
-
 Promise.prototype.resolve = function (result) {
     if (this.PromiseState !== this.PENDING) return;
     while (this._pending.length > 0) {
@@ -23,19 +22,19 @@ Promise.prototype.resolve = function (result) {
         try {
             var resolve = callbacks.resolve;
             if (resolve instanceof Promise) {
-                resolve._pending = this._pending;
+                resolve._pending = resolve._pending.concat(this._pending);
                 resolve._catch = this._catch;
                 resolve.resolve(result);
                 return resolve;
             }
             result = resolve.call(this, result);
             if (result instanceof Promise) {
-                result._pending = this._pending;
+                result._pending = result._pending.concat(this._pending);
                 result._catch = this._catch;
                 return result;
             }
         } catch (error) {
-            callbacks.reject.call(this, error);
+            (callbacks.reject || this._catch).call(this, error);
             return;
         }
     }
@@ -56,7 +55,7 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
         return result;
     };
     this._catch = onRejected || this._catch;
-    this._pending.push({resolve: onFulfilled});
+    this._pending.push({resolve: onFulfilled, reject: onRejected});
     return this;
 };
 Promise.prototype.catch = function (onRejected) {
@@ -64,7 +63,7 @@ Promise.prototype.catch = function (onRejected) {
         return result;
     };
     this._catch = onRejected || this._catch;
-    this._pending.push({resolve: onFulfilled});
+    this._pending.push({resolve: onFulfilled, reject: onRejected});
     return this;
 };
 Promise.all = function (array) {
@@ -121,4 +120,4 @@ Promise.reject = function (error) {
     return new Promise(function (resolve, reject) {
         reject(error);
     });
-}
+};
