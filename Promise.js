@@ -1,6 +1,5 @@
-function Promise (callback) {
+function Promise(callback) {
     this._pending = [];
-    this._callback = callback;
     this.PENDING = "pending";
     this.RESOLVED = "resolved";
     this.REJECTED = "rejected";
@@ -60,11 +59,11 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
     return this;
 };
 Promise.prototype.catch = function (onRejected) {
-    var onFulfilled = function (result) {
-        return result;
-    };
+    // var onFulfilled = function (result) {
+    //     return result;
+    // };
     this._catch = onRejected || this._catch;
-    this._pending.push({resolve: onFulfilled, reject: onRejected});
+    // this._pending.push({resolve: onFulfilled, reject: onRejected});
     return this;
 };
 Promise.all = function (array) {
