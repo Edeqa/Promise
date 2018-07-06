@@ -1,0 +1,29 @@
+{
+    "name": "Promise",
+    "version": "1.0.0",
+    "description": "Simple Promise implementation",
+    "main": "Promise.js",
+    "dependencies": {},
+    "devDependencies": {
+    },
+    "scripts": {
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/edeqa/Promise.git"
+    },
+    "keywords": [
+        "javascript",
+        "promise",
+        "race",
+        "resolve",
+        "reject",
+        "all"
+    ],
+    "author": "Edeqa <info@edeqa.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/edeqa/Promise/issues"
+    },
+    "homepage": "https://github.com/edeqa/Promise#readme"
+}
